@@ -7,7 +7,7 @@ interface Payload {
 	discordUserId: string;
 }
 
-export default class PlayerUnlinkedMessageHandler extends BaseIncomingMessage<Payload> implements Payload {
+export class MessageHandler extends BaseIncomingMessage<Payload> implements Payload {
 	public static override readonly type = "player_unlinked";
 
 	playerName: string;

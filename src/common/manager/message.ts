@@ -3,6 +3,7 @@ import { recursiveReadDir } from "@/utils/filesystem";
 import { access } from "fs/promises";
 import { join, relative } from "path";
 import chalk from "chalk";
+import { MessageHandlerModule } from "../types/message";
 
 const handlers = new Map<string, BaseIncomingMessageConstructor<unknown>>();
 
@@ -27,13 +28,13 @@ export async function initMessageHandlers(resourcePath: string): Promise<void> {
 		const importPath = relative(import.meta.dirname, file).replace(/\\/gu, "/");
 
 		try {
-			const handler = await import(`${importPath}?d=${Date.now()}`) as BaseIncomingMessageConstructor<unknown>;
+			const messageHandlerModule = await import(`${importPath}?d=${Date.now()}`) as MessageHandlerModule;
 
-			if (!handler || !handler.type || !handler.prototype.handle) {
+			if (!messageHandlerModule.MessageHandler || !messageHandlerModule.MessageHandler.prototype.handle) {
 				throw new Error(`Invalid handler structure in ${importPath}`);
 			}
 
-			registerIncomingMessageHandler(handler);
+			registerIncomingMessageHandler(messageHandlerModule.MessageHandler);
 		} catch (error) {
 			console.error(`${chalk.bold.red("[ERROR]")} [${chalk.yellow("MessageManager.initMessageHandlers::import")}] Impossible to load handler ${chalk.blueBright(importPath)} due to an error:\n`, error);
 		}

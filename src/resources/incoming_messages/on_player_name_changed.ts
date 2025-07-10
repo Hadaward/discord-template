@@ -7,7 +7,7 @@ interface Payload {
 	newPlayerName: string;
 }
 
-export default class PlayerNameChangedMessageHandler extends BaseIncomingMessage<Payload> implements Payload {
+export class MessageHandler extends BaseIncomingMessage<Payload> implements Payload {
 	public static override readonly type = "player_name_changed";
 
 	playerId: number;

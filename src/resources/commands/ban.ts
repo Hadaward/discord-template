@@ -35,13 +35,6 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 		return;
 	}
 
-	/**
-	 * if client.privLevel < privLevel:
-	 * client.sendMessage("<V>[•]</V> <R>Você não pode banir este jogador.</R>")
-	 * client.sendStaffMessage(7, "<R>%s</R> tentou banir <J>%s</J> mas suas permissões não são suficientes." % (client.playerName, playerName))
-	 * return
-	 */
-
 	const nickname = interaction.options.getString("nickname", true);
 	const hours = interaction.options.getInteger("hours", true);
 	const reason = interaction.options.getString("reason");

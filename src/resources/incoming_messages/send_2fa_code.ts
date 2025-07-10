@@ -8,7 +8,7 @@ interface Payload {
 	code: string;
 }
 
-export default class Send2FACodeMessageHandler extends BaseIncomingMessage<Payload> implements Payload {
+export class MessageHandler extends BaseIncomingMessage<Payload> implements Payload {
 	public static override readonly type = "send_2fa_code";
 
 	discordUserId: string;

@@ -8,7 +8,7 @@ interface Payload {
 	content: string | MessagePayload | MessageCreateOptions
 }
 
-export default class Update2FAMessageHandler extends BaseIncomingMessage<Payload> implements Payload {
+export class MessageHandler extends BaseIncomingMessage<Payload> implements Payload {
 	public static override readonly type = "update_2fa_message";
 
 	discordUserId: string;

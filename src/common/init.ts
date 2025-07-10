@@ -9,13 +9,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export const RESOURCES_PATH = join(__dirname, "../resources");
-export const INCOMING_MESSAGES_PATH = join(RESOURCES_PATH, "incoming_messages");
 
 export async function init (): Promise<boolean> {
 	try {
 		await initializeDatabase();
 		await initCommands(RESOURCES_PATH);
-		await initMessageHandlers(INCOMING_MESSAGES_PATH);
+		await initMessageHandlers(RESOURCES_PATH);
 
 		if (process.env.DEPLOY_COMMANDS?.toLowerCase() === "true") {
 			await deployCommands();

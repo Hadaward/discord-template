@@ -7,7 +7,7 @@ interface Payload {
 	content: string | MessagePayload | MessageCreateOptions
 }
 
-export default class SendFakeDMMessageHandler extends BaseIncomingMessage<Payload> implements Payload {
+export class MessageHandler extends BaseIncomingMessage<Payload> implements Payload {
 	public static override readonly type = "send_fake_dm";
 
 	discordUserId: string;
