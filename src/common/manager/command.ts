@@ -8,6 +8,8 @@ import { REST, Routes } from "discord.js";
 const commands = new Map<string, DiscordCommand>();
 
 export async function initCommands(resourcePath: string): Promise<void> {
+	commands.clear();
+
 	console.log(chalk.blueBright("> Loading commands..."));
 
 	const commandsPath = join(resourcePath, "commands");

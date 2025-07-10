@@ -1,11 +1,7 @@
 import chalk from "chalk";
 import { Client } from "discord.js";
 import { createConnection, Socket } from "node:net";
-import { onPlayerUnlinked } from "@/server/message/player_unlinked";
-import { onPlayerNameChanged } from "@/server/message/player_name_changed";
-import { onSendFakeDM } from "@/server/message/send_fake_dm";
-import { onSend2FACode } from "@/server/message/send_2fa_code";
-import { onUpdate2FAMessage } from "@/server/message/update_2fa_message";
+import { handleIncomingMessage } from "@/common/manager/message";
 
 interface DarkMiceClient {
 	connected: boolean;
@@ -20,6 +16,8 @@ export const DARKMICE_CLIENT: DarkMiceClient = {
 };
 
 export function initDarkMiceClient(discord: Client | null): void {
+	console.log(chalk.blueBright("> Initializing DarkMice client..."));
+
 	if (!process.env.DARKMICE_SERVER_ADDRESS) {
 		console.error(`${chalk.red.bold("[ERROR]")} DARKMICE_SERVER_ADDRESS is not set in the environment variables.`);
 
@@ -45,10 +43,19 @@ export function initDarkMiceClient(discord: Client | null): void {
 	}
 
 	DARKMICE_CLIENT.discord = discord;
+	connectDarkMiceClient();
+}
 
-	console.log(chalk.blueBright("> Initializing DarkMice client..."));
+function connectDarkMiceClient(): void {
+	if (DARKMICE_CLIENT.connected) {
+		console.log(chalk.green("> DarkMice client is already connected. No need to reconnect."));
+
+		return;
+	}
+
+	console.log(chalk.blueBright("> Connecting to DarkMice server..."));
 	DARKMICE_CLIENT.socket = createConnection({ host: process.env.DARKMICE_SERVER_ADDRESS, port: Number(process.env.DARKMICE_SERVER_PORT) }, () => {
-		console.log(chalk.blueBright("> Initialized DarkMice client and connected to the server!"));
+		console.log(chalk.blueBright("> Connected to DarkMice server!"));
 
 		DARKMICE_CLIENT.connected = true;
 		DARKMICE_CLIENT.socket?.write(`Authorization: ${process.env.DARKMICE_AUTH_KEY}\n`);
@@ -69,26 +76,18 @@ export function initDarkMiceClient(discord: Client | null): void {
 			try {
 				const message = JSON.parse(data);
 
-				if (message.type === "player_unlinked") {
-					promises.push(onPlayerUnlinked(message));
-				} else if (message.type === "player_name_changed") {
-					promises.push(onPlayerNameChanged(message));
-				} else if (message.type === "send_fake_dm") {
-					promises.push(onSendFakeDM(message));
-				} else if (message.type === "send_2fa_code") {
-					promises.push(onSend2FACode(message));
-				} else if (message.type === "update_2fa_message") {
-					promises.push(onUpdate2FAMessage(message));
-				}
+				promises.push(handleIncomingMessage(message));
 			} catch (err) {
 				console.error(chalk.red("> Failed to parse message from DarkMice server:", err, `\n\t${data.toString()}`));
 			}
 		}
+
 		if (promises.length === 0) {
 			console.warn(chalk.yellow("> No valid messages received from DarkMice server. Ignoring..."));
 
 			return;
 		}
+
 		await Promise.all(promises);
 	});
 
@@ -123,6 +122,6 @@ function reconnectDarkMiceClient(): void {
 
 	if (!DARKMICE_CLIENT.socket) {
 		console.log(chalk.blueBright("> Reconnecting DarkMice client..."));
-		initDarkMiceClient(DARKMICE_CLIENT.discord);
+		connectDarkMiceClient();
 	}
 }
