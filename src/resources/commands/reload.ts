@@ -2,7 +2,7 @@ import chalk from "chalk";
 import { RESOURCES_PATH } from "@/common/init";
 import { initCommands } from "@/common/manager/command";
 import { initMessageHandlers } from "@/common/manager/message";
-import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import { ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
 
 export const builder = new SlashCommandBuilder().
 	setName("reload").
@@ -28,14 +28,14 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 			await reloadCommands();
 			await interaction.reply({
 				content: "Todos os comandos foram recarregados com sucesso.",
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral,
 			});
 			break;
 		case "messages":
 			await reloadMessages();
 			await interaction.reply({
 				content: "Todos os manipuladores de mensagens foram recarregados com sucesso.",
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral,
 			});
 			break;
 		case "game":
@@ -44,14 +44,14 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 		default:
 			await interaction.reply({
 				content: "Unknown subcommand.",
-				ephemeral: true,
+				flags: MessageFlags.Ephemeral,
 			});
 		}
 	} catch (error) {
 		console.error(`${chalk.red.bold("[ERROR]")} [${chalk.yellow("reload.execute")}] An error occurred while reloading:\n`, error);
 		await interaction.reply({
 			content: "Ocorreu um erro ao recarregar.",
-			ephemeral: true,
+			flags: MessageFlags.Ephemeral,
 		});
 	}
 }
@@ -71,6 +71,6 @@ async function reloadGameModules(interaction: ChatInputCommandInteraction): Prom
 	console.log(chalk.blueBright("> Reloading game modules..."));
 	await interaction.reply({
 		content: "Não implementado ainda.",
-		ephemeral: true,
+		flags: MessageFlags.Ephemeral,
 	});
 }

@@ -1,7 +1,8 @@
 import { getDiscordUserInGamePlayerId, getPlayerName } from "@/common/database/darkmice";
 import { isDiscordAccountLinked, linkDiscordAccount, unlinkDiscordAccount, validateDiscordCode } from "@/common/database/discord";
-import { DARKMICE_CLIENT } from "@/server/darkmice";
+import { DarkMiceClient } from "@/server/darkmice";
 import { type ChatInputCommandInteraction, MessageFlags, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
+import { PlayerLinkedMessage } from "@/resources/messages/outgoing/player_linked";
 
 export const builder = new SlashCommandBuilder().
 	setName("vincular").
@@ -14,6 +15,8 @@ export const builder = new SlashCommandBuilder().
 		setRequired(true));
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
+	console.log("teste do reload");
+
 	if (interaction.channelId !== process.env.DISCORD_LINKING_CHANNEL_ID) {
 		await interaction.reply({
 			content: `Este comando só pode ser usado no canal <#${process.env.DISCORD_LINKING_CHANNEL_ID}>.`,
@@ -104,14 +107,12 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 		flags: MessageFlags.Ephemeral,
 	});
 
-	if (!DARKMICE_CLIENT.connected) {
-		return;
-	}
-
 	const playerId = await getDiscordUserInGamePlayerId(interaction.user.id);
 
-	DARKMICE_CLIENT.socket?.write(JSON.stringify({
-		type: "player_linked",
-		playerId,
-	}));
+	if (playerId === null) {
+		console.error(`Não foi possível encontrar o ID do jogador vinculado ao Discord user ID ${interaction.user.id}.`);
+
+		return;
+	}
+	DarkMiceClient.instance.sendMessage(new PlayerLinkedMessage({ playerId }));
 }

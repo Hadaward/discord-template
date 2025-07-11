@@ -1,6 +1,6 @@
-import { BaseIncomingMessage } from "@/server/message/base";
+import { BaseIncomingMessage } from "@/server/base_message";
 import { sendFakeDMMessage } from "@/common/util/fake_dm";
-import { DARKMICE_CLIENT } from "@/server/darkmice";
+import { DiscordClient } from "@/client/discord";
 
 interface Payload {
 	playerName: string;
@@ -21,13 +21,13 @@ export class MessageHandler extends BaseIncomingMessage<Payload> implements Payl
 	}
 
 	public override async handle(): Promise<void> {
-		const user = await DARKMICE_CLIENT.discord?.users.fetch(this.discordUserId);
+		const user = await DiscordClient.instance.client?.users.fetch(this.discordUserId);
 
 		if (!user) {
 			return;
 		}
 
-		const guild = DARKMICE_CLIENT.discord?.guilds.cache.get(process.env.DISCORD_GUILD_ID || "");
+		const guild = DiscordClient.instance.client?.guilds.cache.get(process.env.DISCORD_GUILD_ID || "");
 
 		if (!guild) {
 			return;

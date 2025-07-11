@@ -1,4 +1,4 @@
-import { BaseIncomingMessage } from "@/server/message/base";
+import { BaseIncomingMessage } from "@/server/base_message";
 import { create2FAMessage } from "@/common/database/local";
 import { getPlayerName } from "@/common/database/darkmice";
 import { sendFakeDMMessage } from "@/common/util/fake_dm";

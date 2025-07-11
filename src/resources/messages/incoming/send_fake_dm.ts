@@ -1,5 +1,5 @@
 import { sendFakeDMMessage } from "@/common/util/fake_dm";
-import { BaseIncomingMessage } from "@/server/message/base";
+import { BaseIncomingMessage } from "@/server/base_message";
 import { MessagePayload, MessageCreateOptions } from "discord.js";
 
 interface Payload {

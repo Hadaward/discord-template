@@ -1,5 +1,5 @@
 import { deployCommands } from "@/common/manager/command";
-import { ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
+import { type ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
 
 export const builder = new SlashCommandBuilder().
 	setName("redeploy").

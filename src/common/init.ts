@@ -10,7 +10,7 @@ const __dirname = dirname(__filename);
 
 export const RESOURCES_PATH = join(__dirname, "../resources");
 
-export async function init (): Promise<boolean> {
+export async function init(): Promise<boolean> {
 	try {
 		await initializeDatabase();
 		await initCommands(RESOURCES_PATH);

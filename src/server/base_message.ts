@@ -24,18 +24,18 @@ export abstract class BaseIncomingMessage<T> {
 
 export type BaseIncomingMessageConstructor<M> = (new(message: M) => BaseIncomingMessage<M>) & { readonly type: string };
 
-export abstract class BaseOutgoingMessage<T extends Record<string, unknown>> {
+export abstract class BaseOutgoingMessage<T> {
+	public abstract readonly type: string;
 	private _message: T;
 
 	constructor(message: T) {
 		this._message = message;
-
-		if (!Object.hasOwn(this._message, "type")) {
-			throw new Error("Message type is required");
-		}
 	}
 
 	public toJSON(): string {
-		return JSON.stringify(this._message);
+		return JSON.stringify({
+			type: this.type,
+			...this._message,
+		});
 	}
 }

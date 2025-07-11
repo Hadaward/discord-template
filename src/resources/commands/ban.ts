@@ -1,7 +1,8 @@
 import { getDiscordUserInGamePrivLevel, getDiscordUserInGamePlayerId, getPlayerInGamePrivLevel, getPlayerIdByName } from "@/common/database/darkmice";
 import { isDiscordAccountLinked } from "@/common/database/discord";
-import { DARKMICE_CLIENT } from "@/server/darkmice";
+import { DarkMiceClient } from "@/server/darkmice";
 import { type ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
+import { BanPlayerMessage } from "@/resources/messages/outgoing/ban_player";
 
 export const builder = new SlashCommandBuilder().
 	setName("ban").
@@ -90,16 +91,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 		return;
 	}
 
-	const banMessage = {
-		type: "ban_player",
-		modId: await getDiscordUserInGamePlayerId(interaction.user.id),
-		playerId,
-		hours,
-		reason: reason ?? "",
-		resetRecords,
-	};
-
-	if (!DARKMICE_CLIENT.connected) {
+	if (!DarkMiceClient.instance.connected) {
 		await interaction.reply({
 			content: "Não foi possível banir o jogador pois não há conexão com o servidor do DarkMice.",
 			flags: MessageFlags.Ephemeral,
@@ -108,7 +100,24 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 		return;
 	}
 
-	DARKMICE_CLIENT.socket?.write(JSON.stringify(banMessage));
+	const modPlayerId = await getDiscordUserInGamePlayerId(interaction.user.id);
+
+	if (!modPlayerId) {
+		await interaction.reply({
+			content: "Não foi possível encontrar o ID do jogador associado ao seu Discord.",
+			flags: MessageFlags.Ephemeral,
+		});
+
+		return;
+	}
+
+	DarkMiceClient.instance.sendMessage(new BanPlayerMessage({
+		modId: modPlayerId,
+		playerId,
+		hours,
+		reason: reason ?? "",
+		resetRecords,
+	}));
 
 	await interaction.reply({
 		content: `Jogador "${nickname}" banido por ${hours} horas. Motivo: ${reason ?? "Nenhum motivo fornecido."}`,

@@ -3,39 +3,58 @@ import { Client, GatewayIntentBits } from "discord.js";
 import { commandInteractionHandler } from "@/client/interaction/command";
 import { buttonInteractionHandler } from "./interaction/button";
 
-export async function initDiscordClient(): Promise<Client | null> {
-	if (!process.env.DISCORD_TOKEN) {
-		console.error(`${chalk.red.bold("[ERROR]")} DISCORD_TOKEN is not set in the environment variables.`);
+export class DiscordClient {
+	public static readonly instance = new DiscordClient();
+	private _client: Client | null = null;
 
-		return null;
+	public get client(): Client | null {
+		return this._client;
 	}
 
-	if (!process.env.DISCORD_CLIENT_ID) {
-		console.error(`${chalk.red.bold("[ERROR]")} DISCORD_CLIENT_ID is not set in the environment variables.`);
-
-		return null;
+	private constructor() {
+		if (DiscordClient.instance) {
+			throw new Error("DiscordClient is a singleton and cannot be instantiated multiple times. Use DiscordClient.instance instead.");
+		}
 	}
 
-	console.log(chalk.blueBright("> Initializing Discord client..."));
-	const client = new Client({ intents: [ GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers ] });
-
-	client.on("ready", ({ user }) => {
-		console.log(chalk.magentaBright(`> Logged in as ${chalk.yellow(user.tag)}!`));
-	});
-
-	client.on("interactionCreate", async (interaction) => {
-		if (interaction.isChatInputCommand()) {
-			await commandInteractionHandler(interaction);
+	async connect(): Promise<void> {
+		if (this._client) {
+			console.log(chalk.green("> Discord client is already connected. No need to reconnect."));
 
 			return;
 		}
 
-		if (interaction.isButton()) {
-			await buttonInteractionHandler(interaction);
+		if (!process.env.DISCORD_TOKEN) {
+			console.error(`${chalk.red.bold("[ERROR]")} DISCORD_TOKEN is not set in the environment variables.`);
+
+			return;
 		}
-	});
 
-	await client.login(process.env.DISCORD_TOKEN);
+		if (!process.env.DISCORD_CLIENT_ID) {
+			console.error(`${chalk.red.bold("[ERROR]")} DISCORD_CLIENT_ID is not set in the environment variables.`);
 
-	return client;
+			return;
+		}
+
+		console.log(chalk.blueBright("> Initializing Discord client..."));
+		this._client = new Client({ intents: [ GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers ] });
+
+		this._client.on("ready", ({ user }) => {
+			console.log(chalk.magentaBright(`> Logged in as ${chalk.yellow(user.tag)}!`));
+		});
+
+		this._client.on("interactionCreate", async (interaction) => {
+			if (interaction.isChatInputCommand()) {
+				await commandInteractionHandler(interaction);
+
+				return;
+			}
+
+			if (interaction.isButton()) {
+				await buttonInteractionHandler(interaction);
+			}
+		});
+
+		await this._client.login(process.env.DISCORD_TOKEN);
+	}
 }

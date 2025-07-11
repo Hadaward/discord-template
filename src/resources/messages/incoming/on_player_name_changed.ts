@@ -1,6 +1,6 @@
-import { DARKMICE_CLIENT } from "@/server/darkmice";
-import { BaseIncomingMessage } from "@/server/message/base";
+import { BaseIncomingMessage } from "@/server/base_message";
 import { getDiscordUserId, isDiscordAccountLinked } from "@/common/database/discord";
+import { DiscordClient } from "@/client/discord";
 
 interface Payload {
 	playerId: number;
@@ -36,7 +36,7 @@ export class MessageHandler extends BaseIncomingMessage<Payload> implements Payl
 
 			return;
 		}
-		const guild = DARKMICE_CLIENT.discord?.guilds.cache.get(process.env.DISCORD_GUILD_ID || "");
+		const guild = DiscordClient.instance.client?.guilds.cache.get(process.env.DISCORD_GUILD_ID || "");
 
 		if (!guild) {
 			console.warn(`Guild not found. Cannot update name for user ${discordUserId}.`);

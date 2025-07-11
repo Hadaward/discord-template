@@ -1,6 +1,6 @@
 import { MessagePayload, MessageCreateOptions, ChannelType, PermissionFlagsBits, ButtonBuilder, ActionRowBuilder, ButtonStyle, ComponentType, Message } from "discord.js";
-import { DARKMICE_CLIENT } from "@/server/darkmice";
-import { createFakeDMChannel, deleteFakeDMChannel, getFakeDMChannel } from "../database/local";
+import { createFakeDMChannel, deleteFakeDMChannel, getFakeDMChannel } from "@/common/database/local";
+import { DiscordClient } from "@/client/discord";
 
 export async function getGuildFakeDMChannel(userId: string) {
 	const dmCategoryId = process.env.DISCORD_GUILD_DM_CATEGORY_ID;
@@ -11,7 +11,7 @@ export async function getGuildFakeDMChannel(userId: string) {
 		return null;
 	}
 
-	const user = await DARKMICE_CLIENT.discord?.users.fetch(userId);
+	const user = await DiscordClient.instance.client?.users.fetch(userId);
 
 	if (!user) {
 		console.warn(`User with ID ${userId} not found. Cannot create DM channel.`);
@@ -19,7 +19,7 @@ export async function getGuildFakeDMChannel(userId: string) {
 		return null;
 	}
 
-	const guild = DARKMICE_CLIENT.discord?.guilds.cache.get(process.env.DISCORD_GUILD_ID || "");
+	const guild = DiscordClient.instance.client?.guilds.cache.get(process.env.DISCORD_GUILD_ID || "");
 
 	if (!guild) {
 		console.warn(`Guild not found. Cannot create DM channel for user ${userId}.`);
@@ -49,7 +49,7 @@ export async function sendFakeDMMessage(userId: string, message: string | Messag
 		return null;
 	}
 
-	const user = await DARKMICE_CLIENT.discord?.users.fetch(userId);
+	const user = await DiscordClient.instance.client?.users.fetch(userId);
 
 	if (!user) {
 		console.warn(`User with ID ${userId} not found. Cannot create DM channel.`);
@@ -57,7 +57,7 @@ export async function sendFakeDMMessage(userId: string, message: string | Messag
 		return null;
 	}
 
-	const guild = DARKMICE_CLIENT.discord?.guilds.cache.get(process.env.DISCORD_GUILD_ID || "");
+	const guild = DiscordClient.instance.client?.guilds.cache.get(process.env.DISCORD_GUILD_ID || "");
 
 	if (!guild) {
 		console.warn(`Guild not found. Cannot create DM channel for user ${userId}.`);

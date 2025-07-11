@@ -1,9 +1,9 @@
-import { BaseIncomingMessageConstructor } from "@/server/message/base";
+import { BaseIncomingMessageConstructor } from "@/server/base_message";
 import { recursiveReadDir } from "@/utils/filesystem";
 import { access } from "fs/promises";
 import { join, relative } from "path";
 import chalk from "chalk";
-import { MessageHandlerModule } from "../types/message";
+import { MessageHandlerModule } from "@/common/types/message";
 
 const handlers = new Map<string, BaseIncomingMessageConstructor<unknown>>();
 
@@ -12,7 +12,7 @@ export async function initMessageHandlers(resourcePath: string): Promise<void> {
 
 	console.log(chalk.blueBright("> Loading message handlers..."));
 
-	const handlersPath = join(resourcePath, "incoming_messages");
+	const handlersPath = join(resourcePath, "messages/incoming");
 
 	try {
 		await access(handlersPath);
