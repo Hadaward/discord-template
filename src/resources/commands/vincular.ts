@@ -1,7 +1,7 @@
-import { getDiscordUserInGamePlayerId, getPlayerName } from "@/common/database/darkmice";
 import { isDiscordAccountLinked, linkDiscordAccount, unlinkDiscordAccount, validateDiscordCode } from "@/common/database/discord";
-import { DarkMiceClient } from "@/server/darkmice";
 import { type ChatInputCommandInteraction, MessageFlags, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
+import { getDiscordUserInGamePlayerId, getPlayerName } from "@/common/database/darkmice";
+import { DarkMiceClient } from "@/server/darkmice";
 import { PlayerLinkedMessage } from "@/resources/messages/outgoing/player_linked";
 
 export const builder = new SlashCommandBuilder().

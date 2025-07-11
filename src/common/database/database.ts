@@ -1,6 +1,6 @@
-import chalk from "chalk";
 import mysql from "mysql2/promise";
 import "@/common/database/local";
+import chalk from "chalk";
 
 let database: mysql.Connection | null = null;
 

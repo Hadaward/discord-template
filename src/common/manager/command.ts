@@ -1,9 +1,9 @@
-import chalk from "chalk";
 import type { DiscordCommand } from "@/common/types/command";
-import { join, relative } from "path";
 import { recursiveReadDir } from "@/utils/filesystem";
-import { access } from "fs/promises";
 import { REST, Routes } from "discord.js";
+import { join, relative } from "path";
+import { access } from "fs/promises";
+import chalk from "chalk";
 
 const commands = new Map<string, DiscordCommand>();
 

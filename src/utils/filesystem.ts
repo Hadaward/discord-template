@@ -1,5 +1,5 @@
-import { Dirent } from "fs";
 import { readdir } from "fs/promises";
+import { Dirent } from "fs";
 import { join } from "path";
 
 export async function recursiveReadDir(path: string, predicate?: (entry: Dirent<string>) => boolean): Promise<string[]> {

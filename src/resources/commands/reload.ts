@@ -1,8 +1,9 @@
-import chalk from "chalk";
-import { RESOURCES_PATH } from "@/common/init";
-import { initCommands } from "@/common/manager/command";
-import { initMessageHandlers } from "@/common/manager/message";
 import { ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
+import { initMessageHandlers } from "@/common/manager/message";
+import { initCommands } from "@/common/manager/command";
+import { RESOURCES_PATH } from "@/common/init";
+import chalk from "chalk";
+
 
 export const builder = new SlashCommandBuilder().
 	setName("reload").

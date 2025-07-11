@@ -1,5 +1,5 @@
 import { commandInteractionHandler } from "@/client/interaction/command";
-import { buttonInteractionHandler } from "./interaction/button";
+import { buttonInteractionHandler } from "@/client/interaction/button";
 import { Client, GatewayIntentBits } from "discord.js";
 import chalk from "chalk";
 

@@ -1,5 +1,5 @@
 import { getUserIdByFakeDMChannel, deleteFakeDMChannel } from "@/common/database/local";
-import { ButtonInteraction, MessageFlags } from "discord.js";
+import { type ButtonInteraction, MessageFlags } from "discord.js";
 import { sendFakeDMMessage } from "@/common/util/fake_dm";
 
 export async function buttonInteractionHandler(interaction: ButtonInteraction): Promise<void> {

@@ -1,9 +1,9 @@
 import { BaseIncomingMessageConstructor } from "@/server/base_message";
-import { recursiveReadDir } from "@/utils/filesystem";
-import { access } from "fs/promises";
-import { join, relative } from "path";
-import chalk from "chalk";
 import { MessageHandlerModule } from "@/common/types/message";
+import { recursiveReadDir } from "@/utils/filesystem";
+import { join, relative } from "path";
+import { access } from "fs/promises";
+import chalk from "chalk";
 
 const handlers = new Map<string, BaseIncomingMessageConstructor<unknown>>();
 

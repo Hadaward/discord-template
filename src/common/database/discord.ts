@@ -1,5 +1,5 @@
-import { getDatabase } from "@/common/database/database";
 import type { DatabaseDiscordModelOnlyId } from "@/common/types/models";
+import { getDatabase } from "@/common/database/database";
 
 export async function validateDiscordCode(code: string): Promise<boolean> {
 	const db = getDatabase();

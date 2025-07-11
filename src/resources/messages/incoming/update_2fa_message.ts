@@ -1,7 +1,7 @@
-import { get2FAMessage, delete2FAMessage } from "@/common/database/local";
 import { getGuildFakeDMChannel, sendFakeDMMessage } from "@/common/util/fake_dm";
-import { BaseIncomingMessage } from "@/server/base_message";
+import { get2FAMessage, delete2FAMessage } from "@/common/database/local";
 import { MessagePayload, MessageCreateOptions } from "discord.js";
+import { BaseIncomingMessage } from "@/server/base_message";
 
 interface Payload {
 	discordUserId: string;

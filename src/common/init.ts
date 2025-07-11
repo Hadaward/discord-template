@@ -1,9 +1,9 @@
-import chalk from "chalk";
-import { fileURLToPath } from "url";
-import { dirname, join } from "path";
+import { deployCommands, initCommands } from "@/common/manager/command";
 import { initializeDatabase } from "@/common/database/database";
 import { initMessageHandlers } from "@/common/manager/message";
-import { deployCommands, initCommands } from "@/common/manager/command";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+import chalk from "chalk";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

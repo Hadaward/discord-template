@@ -1,7 +1,7 @@
-import chalk from "chalk";
-import { createConnection, Socket } from "node:net";
 import { handleIncomingMessage } from "@/common/manager/message";
-import { BaseOutgoingMessage } from "./base_message";
+import { BaseOutgoingMessage } from "@/server/base_message";
+import { createConnection, Socket } from "node:net";
+import chalk from "chalk";
 
 export class DarkMiceClient {
 	public static readonly instance = new DarkMiceClient();

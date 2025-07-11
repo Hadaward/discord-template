@@ -1,5 +1,5 @@
+import type { DatabaseDarkMicePlayerOnlyName, DatabaseDiscordModelOnlyPlayerId } from "@/common/types/models";
 import { getDatabase } from "@/common/database/database";
-import type { DatabaseDarkMicePlayerOnlyName, DatabaseDiscordModelOnlyPlayerId } from "../types/models";
 
 export async function getPlayerName(discordUserId: string): Promise<string | null> {
 	const db = getDatabase();

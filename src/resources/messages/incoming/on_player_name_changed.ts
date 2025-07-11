@@ -1,5 +1,5 @@
-import { BaseIncomingMessage } from "@/server/base_message";
 import { getDiscordUserId, isDiscordAccountLinked } from "@/common/database/discord";
+import { BaseIncomingMessage } from "@/server/base_message";
 import { DiscordClient } from "@/client/discord";
 
 interface Payload {

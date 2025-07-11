@@ -1,7 +1,7 @@
-import chalk from "chalk";
-import { init } from "@/common/init";
-import { DiscordClient } from "@/client/discord";
 import { DarkMiceClient } from "@/server/darkmice";
+import { DiscordClient } from "@/client/discord";
+import { init } from "@/common/init";
+import chalk from "chalk";
 
 const allModulesLoaded = await init();
 
