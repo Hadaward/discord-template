@@ -3,6 +3,7 @@ import { isDiscordAccountLinked } from "@/common/database/discord";
 import { DarkMiceClient } from "@/server/darkmice";
 import { type ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { BanPlayerMessage } from "@/resources/messages/outgoing/ban_player";
+import { parsePlayerName } from "@/utils/string";
 
 export const builder = new SlashCommandBuilder().
 	setName("ban").
@@ -59,7 +60,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 		return;
 	}
 
-	const playerId = await getPlayerIdByName(nickname);
+	const playerId = await getPlayerIdByName(parsePlayerName(nickname));
 
 	if (!playerId) {
 		await interaction.reply({

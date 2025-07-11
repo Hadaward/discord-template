@@ -1,7 +1,7 @@
-import chalk from "chalk";
-import { Client, GatewayIntentBits } from "discord.js";
 import { commandInteractionHandler } from "@/client/interaction/command";
 import { buttonInteractionHandler } from "./interaction/button";
+import { Client, GatewayIntentBits } from "discord.js";
+import chalk from "chalk";
 
 export class DiscordClient {
 	public static readonly instance = new DiscordClient();

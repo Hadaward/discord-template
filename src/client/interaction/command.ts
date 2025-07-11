@@ -1,6 +1,6 @@
+import { MessageFlags, type CommandInteraction } from "discord.js";
 import { getCommand } from "@/common/manager/command";
 import chalk from "chalk";
-import { MessageFlags, type CommandInteraction } from "discord.js";
 
 export async function commandInteractionHandler(interaction: CommandInteraction): Promise<void> {
 	if (!interaction.isChatInputCommand()) {
