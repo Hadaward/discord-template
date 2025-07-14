@@ -6,8 +6,8 @@ import { DarkMiceClient } from "@/server/darkmice";
 import { parsePlayerName } from "@/utils/string";
 
 export const builder = new SlashCommandBuilder().
-	setName("change_pwd").
-	setNameLocalization("pt-BR", "change_pass").
+	setName("update_pwd").
+	setNameLocalization("pt-BR", "update_pass").
 	setDescription("Change the password of a player in the DarkMice server through Discord.").
 	setDescriptionLocalization("pt-BR", "Alterar a senha de um jogador do DarkMice através do Discord.").
 	setDefaultMemberPermissions(0).

@@ -44,14 +44,18 @@ export class DiscordClient {
 		});
 
 		this._client.on("interactionCreate", async (interaction) => {
-			if (interaction.isChatInputCommand()) {
-				await commandInteractionHandler(interaction);
+			try {
+				if (interaction.isChatInputCommand()) {
+					await commandInteractionHandler(interaction);
 
-				return;
-			}
+					return;
+				}
 
-			if (interaction.isButton()) {
-				await buttonInteractionHandler(interaction);
+				if (interaction.isButton()) {
+					await buttonInteractionHandler(interaction);
+				}
+			} catch (error) {
+				console.error(`${chalk.red.bold("[ERROR]")} [${chalk.yellow("DiscordClient.onInteractionCreate")}] An error occurred while handling an interaction:\n`, error);
 			}
 		});
 

@@ -7,6 +7,10 @@ import chalk from "chalk";
 
 const commands = new Map<string, DiscordCommand>();
 
+export function getCommands(): ReadonlyMap<string, DiscordCommand> {
+	return Object.freeze(new Map(commands));
+}
+
 export async function initCommands(resourcePath: string): Promise<void> {
 	commands.clear();
 

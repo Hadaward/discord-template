@@ -1,4 +1,4 @@
-import type { DatabaseDarkMicePlayerOnlyName, DatabaseDiscordModelOnlyPlayerId } from "@/common/types/models";
+import type { DatabaseDarkMicePlayerOnlyBanHours, DatabaseDarkMicePlayerOnlyBannedBy, DatabaseDarkMicePlayerOnlyName, DatabaseDiscordModelOnlyPlayerId } from "@/common/types/models";
 import { getDatabase } from "@/common/database/database";
 
 export async function getPlayerName(discordUserId: string): Promise<string | null> {
@@ -90,4 +90,34 @@ export async function getDiscordUserInGamePrivLevel(discordUserId: string): Prom
 	}
 
 	return rows[0].PrivLevel ?? 1;
+}
+
+export async function getModeratorNameWhoBannedPlayer(playerName: string): Promise<string | null> {
+	const db = getDatabase();
+
+	const [ rows ] = await db.execute<DatabaseDarkMicePlayerOnlyBannedBy[]>(
+		"select Bannedby from casierlog where Name = ?",
+		[ playerName ],
+	);
+
+	if (rows.length === 0) {
+		return null;
+	}
+
+	return rows[0].Bannedby;
+}
+
+export async function getPlayerBanHours(playerId: number): Promise<number | null> {
+	const db = getDatabase();
+
+	const [ rows ] = await db.execute<DatabaseDarkMicePlayerOnlyBanHours[]>(
+		"SELECT BanHours FROM users WHERE PlayerID = ?",
+		[ playerId ],
+	);
+
+	if (rows.length === 0) {
+		return null;
+	}
+
+	return rows[0].BanHours ?? null;
 }

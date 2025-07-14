@@ -15,3 +15,7 @@ export interface DatabaseDiscordModelOnlyId extends RowDataPacket {
 export interface DatabaseDiscordModelOnlyPlayerId extends RowDataPacket {player_id: number;}
 
 export interface DatabaseDarkMicePlayerOnlyName extends RowDataPacket {Username: string;}
+
+export interface DatabaseDarkMicePlayerOnlyBannedBy extends RowDataPacket {Bannedby: string;}
+
+export interface DatabaseDarkMicePlayerOnlyBanHours extends RowDataPacket {BanHours: number;}

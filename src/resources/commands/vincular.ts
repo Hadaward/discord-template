@@ -15,8 +15,6 @@ export const builder = new SlashCommandBuilder().
 		setRequired(true));
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
-	console.log("teste do reload");
-
 	if (interaction.channelId !== process.env.DISCORD_LINKING_CHANNEL_ID) {
 		await interaction.reply({
 			content: `Este comando só pode ser usado no canal <#${process.env.DISCORD_LINKING_CHANNEL_ID}>.`,
