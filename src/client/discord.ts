@@ -1,6 +1,6 @@
 import { commandInteractionHandler } from "@/client/interaction/command";
 import { buttonInteractionHandler } from "@/client/interaction/button";
-import { Client, GatewayIntentBits } from "discord.js";
+import { Client, EmbedBuilder, GatewayIntentBits } from "discord.js";
 import chalk from "chalk";
 
 export class DiscordClient {
@@ -37,10 +37,49 @@ export class DiscordClient {
 		}
 
 		console.log(chalk.blueBright("> Initializing Discord client..."));
-		this._client = new Client({ intents: [ GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers ] });
+		this._client = new Client({
+			intents: [
+				GatewayIntentBits.Guilds,
+				GatewayIntentBits.GuildMembers,
+				GatewayIntentBits.GuildMessages, 
+            	GatewayIntentBits.MessageContent 
+			]
+		});
 
 		this._client.on("ready", ({ user }) => {
 			console.log(chalk.magentaBright(`> Logged in as ${chalk.yellow(user.tag)}!`));
+		});
+
+		this._client.on("error", (error) => {
+			console.error(`${chalk.red.bold("[ERROR]")} [${chalk.yellow("DiscordClient.onError")}] An error occurred:\n`, error);
+		});
+
+		this._client.on("messageCreate", async (message) => {
+			if (message.author.bot) return; // Ignore messages from bots
+
+			if (message.channelId === process.env.DISCORD_LINKING_CHANNEL_ID) {
+				const embed = new EmbedBuilder()
+					.setColor(0xffcc00)
+					.setTitle("Atenção!")
+					.setDescription(
+						"Por favor, evite enviar mensagens neste canal de verificação.\n\n" +
+						"Se precisar de suporte, crie um ticket no canal de tickets.\n\n" +
+						"Para vincular sua conta do DarkMice ao Discord, utilize o comando `/vincular`.\n" +
+						"Esse comando já está registrado no servidor do Discord."
+					);
+				
+				const msg = await message.reply({ embeds: [embed] });
+
+				msg.createMessageComponentCollector({ time: 8000 }).on("end", async () => {
+					try {
+						await msg.delete();
+					} catch (error) {
+						console.error(`${chalk.red.bold("[ERROR]")} [${chalk.yellow("DiscordClient.onMessageCreate")}] Failed to delete message:\n`, error);
+					}
+				});
+
+				await message.delete().catch(() => null);
+			}
 		});
 
 		this._client.on("interactionCreate", async (interaction) => {
