@@ -1,6 +1,5 @@
-import { type ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
-import { isDiscordAccountLinked } from "@/common/database/discord";
 import { getCommands } from "@/common/manager/command";
+import { type ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
 
 export const builder = new SlashCommandBuilder().
 	setName("commands").
@@ -9,15 +8,6 @@ export const builder = new SlashCommandBuilder().
 	setDescriptionLocalization("pt-BR", "Lista de comandos disponíveis.");
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
-	if (!await isDiscordAccountLinked(interaction.user.id)) {
-		await interaction.reply({
-			content: "Você precisa vincular sua conta do DarkMice ao Discord antes de usar este comando.",
-			flags: MessageFlags.Ephemeral,
-		});
-
-		return;
-	}
-
 	const commandsList = Array.from(getCommands().values());
 
 	const filteredCommands = commandsList.filter((command) => {
@@ -32,7 +22,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 
 	if (filteredCommands.length === 0) {
 		await interaction.reply({
-			content: "Nenhum comando disponível no momento.",
+			content: "No commands are available to you at this time.",
 			flags: MessageFlags.Ephemeral,
 		});
 

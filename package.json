@@ -1,7 +1,7 @@
 {
   "name": "darkmice-bot",
   "version": "1.0.0",
-  "description": "Esse é um bot do discord feito para o servidor de transformice privado DarkMice.",
+  "description": "Discord bot template with TypeScript",
   "license": "MIT",
   "author": "Gamedroit",
   "type": "module",
@@ -10,7 +10,6 @@
     "format": "eslint . --fix",
     "lint": "eslint .",
     "build": "tsc && tsc-alias",
-    "build:release": "node scripts/build_release.mjs",
     "start": "dotenvx run -- node dist/index.js",
     "predev": "npm run build",
     "dev": "dotenvx run -- concurrently --raw -n \"tsc,alias,node\" \"tsc --watch\" \"tsc-alias --watch\" \"node --watch dist/index.js\""
@@ -21,31 +20,24 @@
   "parserOptions": {
     "sourceType": "module"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TFM-DarkMice/darkmice-bot.git"
-  },
   "devDependencies": {
-    "@dotenvx/dotenvx": "^1.47.3",
-    "@eslint/js": "^9.30.1",
+    "@dotenvx/dotenvx": "1.51.0",
+    "@eslint/js": "9.36.0",
     "@phoenix35/eslint-config": "^1.8.0",
     "@types/eslint__js": "^8.42.3",
-    "@types/node": "^24.0.10",
+    "@types/node": "24.6.1",
     "@types/prompts": "^2.4.9",
-    "esbuild": "^0.25.6",
-    "eslint": "^9.30.1",
+    "eslint": "9.36.0",
     "javascript-obfuscator": "^4.1.1",
     "tsc-alias": "^1.8.16",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.35.1"
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.45.0"
   },
   "dependencies": {
     "@types/better-sqlite3": "^7.6.13",
-    "better-sqlite3": "^12.2.0",
-    "chalk": "^5.4.1",
-    "concurrently": "^9.2.0",
-    "discord.js": "^14.21.0",
-    "mysql2": "^3.14.1",
+    "chalk": "5.6.2",
+    "concurrently": "9.2.1",
+    "discord.js": "14.22.1",
     "prompts": "^2.4.2"
   }
 }

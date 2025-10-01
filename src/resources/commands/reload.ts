@@ -1,59 +1,28 @@
-import { ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
-import { getDiscordUserInGamePlayerId, getDiscordUserInGamePrivLevel } from "@/common/database/darkmice";
-import { ReloadGameMessage } from "../messages/outgoing/reload_game";
-import { initMessageHandlers } from "@/common/manager/message";
-import { initCommands } from "@/common/manager/command";
-import { DarkMiceClient } from "@/server/darkmice";
 import { RESOURCES_PATH } from "@/common/init";
+import { initCommands } from "@/common/manager/command";
 import chalk from "chalk";
+import { ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
 
 export const builder = new SlashCommandBuilder().
 	setName("reload").
-	setDescription("Reload all modules of the DarkMice server through Discord.").
-	setDescriptionLocalization("pt-BR", "Recarregar todos os módulos do servidor do DarkMice através do Discord.").
+	setDescription("Reload <module>.").
+	setDescriptionLocalization("pt-BR", "Recarregar <módulo>.").
 	setDefaultMemberPermissions(0).
 	addSubcommand((subcommand) => subcommand.setName("commands").
 		setDescription("Reload all commands.").
-		setDescriptionLocalization("pt-BR", "Recarregar todos os comandos.")).
-	addSubcommand((subcommand) => subcommand.setName("messages").
-		setDescription("Reload all message handlers.").
-		setDescriptionLocalization("pt-BR", "Recarregar todos os manipuladores de mensagens.")).
-	addSubcommand((subcommand) => subcommand.setName("game").
-		setDescription("Reload all game modules.").
-		setDescriptionLocalization("pt-BR", "Recarregar todos os módulos do servidor do jogo."));
+		setDescriptionLocalization("pt-BR", "Recarregar todos os comandos."));
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
 	const subcommand = interaction.options.getSubcommand();
-
-	const privLevel = await getDiscordUserInGamePrivLevel(interaction.user.id);
-
-	if (privLevel < 11) {
-		await interaction.reply({
-			content: "Você não tem permissão para usar este comando.",
-			flags: MessageFlags.Ephemeral,
-		});
-
-		return;
-	}
 
 	try {
 		switch (subcommand) {
 		case "commands":
 			await reloadCommands();
 			await interaction.reply({
-				content: "Todos os comandos foram recarregados com sucesso.",
+				content: "All commands have been reloaded.",
 				flags: MessageFlags.Ephemeral,
 			});
-			break;
-		case "messages":
-			await reloadMessages();
-			await interaction.reply({
-				content: "Todos os manipuladores de mensagens foram recarregados com sucesso.",
-				flags: MessageFlags.Ephemeral,
-			});
-			break;
-		case "game":
-			await reloadGameModules(interaction);
 			break;
 		default:
 			await interaction.reply({
@@ -64,7 +33,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 	} catch (error) {
 		console.error(`${chalk.red.bold("[ERROR]")} [${chalk.yellow("reload.execute")}] An error occurred while reloading:\n`, error);
 		await interaction.reply({
-			content: "Ocorreu um erro ao recarregar.",
+			content: "An error occurred while reloading.",
 			flags: MessageFlags.Ephemeral,
 		});
 	}
@@ -73,40 +42,4 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 async function reloadCommands(): Promise<void> {
 	console.log(chalk.blueBright("> Reloading commands..."));
 	await initCommands(RESOURCES_PATH);
-}
-
-async function reloadMessages(): Promise<void> {
-	console.log(chalk.blueBright("> Reloading message handlers..."));
-	await initMessageHandlers(RESOURCES_PATH);
-}
-
-async function reloadGameModules(interaction: ChatInputCommandInteraction): Promise<void> {
-	console.log(chalk.blueBright("> Reloading game modules..."));
-
-	if (!DarkMiceClient.instance.connected) {
-		await interaction.reply({
-			content: "Não foi possível recarregar os módulos do jogo pois não há conexão com o servidor do DarkMice.",
-			flags: MessageFlags.Ephemeral,
-		});
-
-		return;
-	}
-
-	const playerId = await getDiscordUserInGamePlayerId(interaction.user.id);
-
-	if (!playerId) {
-		await interaction.reply({
-			content: "Não foi possível encontrar o ID do jogador associado ao seu Discord.",
-			flags: MessageFlags.Ephemeral,
-		});
-
-		return;
-	}
-
-	DarkMiceClient.instance.sendMessage(new ReloadGameMessage({ playerId }));
-
-	await interaction.reply({
-		content: "Todos os módulos do jogo foram recarregados com sucesso.",
-		flags: MessageFlags.Ephemeral,
-	});
 }

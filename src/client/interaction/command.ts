@@ -1,6 +1,6 @@
-import { MessageFlags, type CommandInteraction } from "discord.js";
 import { getCommand } from "@/common/manager/command";
 import chalk from "chalk";
+import { MessageFlags, type CommandInteraction } from "discord.js";
 
 export async function commandInteractionHandler(interaction: CommandInteraction): Promise<void> {
 	if (!interaction.isChatInputCommand()) {
@@ -10,7 +10,7 @@ export async function commandInteractionHandler(interaction: CommandInteraction)
 	const command = await getCommand(interaction.commandName);
 
 	if (!command) {
-		await interaction.reply({ content: "Este comando não existe.", flags: MessageFlags.Ephemeral });
+		await interaction.reply({ content: "This command does not exist.", flags: MessageFlags.Ephemeral });
 
 		return;
 	}
@@ -18,7 +18,7 @@ export async function commandInteractionHandler(interaction: CommandInteraction)
 	try {
 		await command.execute(interaction);
 	} catch (error) {
-		const text = "Ocorreu um erro ao executar este comando. Por favor, tente novamente mais tarde.";
+		const text = "An error occurred while executing this command. Please try again later.";
 
 		if (interaction.replied || interaction.deferred) {
 			await interaction.followUp({ content: text, flags: MessageFlags.Ephemeral });

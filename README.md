@@ -1,124 +1,98 @@
-# DarkMice Bot
+# Discord.js Bot Template
 
-Bot do Discord feito para o servidor de Transformice privado **DarkMice**, com integração ao servidor, banco de dados e funcionalidades como verificação, vinculação e comandos interativos.
+A basic Discord bot template built with [discord.js](https://discord.js.org/), featuring integration with MySQL and SQLite, environment variable configuration, and interactive commands.
 
 ---
 
-## 📦 Requisitos
+## 📦 Requirements
 
-- [Node.js](https://nodejs.org/) **v20.16.0 ou superior**
+- [Node.js](https://nodejs.org/) **v20.16.0 or higher**
 - [npm](https://www.npmjs.com/)
-- Servidor MySQL configurado
-- Bot registrado no Discord com permissões adequadas
-- Servidor DarkMice configurado
+- Configured MySQL server (optional, for persistent data)
+- Discord bot registered with appropriate permissions
 
 ---
 
-## 🚀 Instalação
+## 🚀 Installation
 
 ```bash
-git clone https://github.com/TFM-DarkMice/darkmice-bot.git
-cd darkmice-bot
+git clone https://github.com/your-username/discordjs-bot-template.git
+cd discordjs-bot-template
 npm install
 ```
 
 ---
 
-## ⚙️ Configuração
+## ⚙️ Configuration
 
-1. Copie o arquivo `.env.default` como base:
+1. Copy the `.env.default` file as a base:
 
 ```bash
 cp .env.default .env
 ```
 
-2. Preencha as variáveis no arquivo `.env`:
+2. Fill in the variables in the `.env` file:
 
 ```env
-# Token do bot do Discord
 DISCORD_TOKEN=
-
-# ID do cliente e do servidor Discord
 DISCORD_CLIENT_ID=
-DISCORD_GUILD_ID=
-
-# ID do canal de vinculação e cargo de verificação
-DISCORD_LINKING_CHANNEL_ID=
-DISCORD_VERIFIED_ROLE_ID=
-
-# Categoria de DM para mensagens simuladas
-DISCORD_GUILD_DM_CATEGORY_ID=
-
-# Habilita ou não o deploy automático de comandos
 DEPLOY_COMMANDS=false
-
-# Configurações do banco de dados MySQL
-DATABASE_USER=root
-DATABASE_PASSWORD=
-DATABASE_HOST=localhost
-DATABASE_NAME=darkmice
-DATABASE_PORT=3306
-
-# Configurações do servidor DarkMice
-DARKMICE_AUTH_KEY=
-DARKMICE_SERVER_ADDRESS=localhost
-DARKMICE_SERVER_PORT=11801
 ```
 
 ---
 
-## 💻 Scripts disponíveis
+## 💻 Available Scripts
 
-| Script           | Descrição                                        |
-|------------------|--------------------------------------------------|
-| `npm start`      | Inicia o bot em modo produção                    |
-| `npm run dev`    | Modo desenvolvimento com hot-reload             |
-| `npm run build`  | Compila o código para `dist/`                    |
-| `npm run format` | Formata o código com ESLint                      |
-| `npm run lint`   | Verifica problemas de lint                       |
-
----
-
-## 🧪 Banco de dados
-
-Este projeto usa:
-
-- **MySQL** — Para persistência dos dados dos jogadores.
-- **SQLite** (`darkmice.db`) — Para dados locais.
+| Script           | Description                                 |
+|------------------|---------------------------------------------|
+| `npm start`      | Starts the bot in production mode           |
+| `npm run dev`    | Development mode with hot-reload            |
+| `npm run build`  | Compiles the code to the `dist/` directory  |
+| `npm run format` | Formats code using ESLint                   |
+| `npm run lint`   | Runs lint checks                            |
 
 ---
 
-## 📁 Estrutura do projeto
+## 🧪 Database
+
+This project supports:
+
+- **MySQL** — For persistent user data.
+- **SQLite** (`bot.db`) — For local data storage.
+
+---
+
+## 📁 Project Structure
 
 ```
 src/
-├── client/               # Integração com Discord (bot, comandos, botões)
-├── server/               # Comunicação com o servidor DarkMice
-├── common/               # Banco de dados, tipos, inicialização e utilitários
-├── resources/commands/   # Comandos disponíveis no Discord
-├── index.ts              # Ponto de entrada principal
+├── client/               # Discord integration (bot, commands, buttons)
+├── server/               # Server communication (optional)
+├── common/               # Database, types, initialization, utilities
+├── resources/commands/   # Discord commands
+├── index.ts              # Main entry point
 ```
 
 ---
 
-## 🛠 Desenvolvimento
+## 🛠 Development
 
-Execute o bot com hot-reload para desenvolvimento:
+Run the bot in development mode with hot-reload:
 
 ```bash
 npm run dev
 ```
 
-Esse comando compila e reinicia o bot automaticamente ao salvar arquivos `.ts`.
+This command automatically compiles and restarts the bot when `.ts` files are saved.
 
 ---
 
-## 📄 Licença
+## 📄 License
 
-Distribuído sob a licença [MIT](LICENSE).
+Distributed under the [MIT](LICENSE) license.
 
 ---
 
-## ✨ Autor
+## ✨ Author
 
-Desenvolvido por **Gamedroit** para o servidor privado **DarkMice**.
+Developed by **Your Name**.

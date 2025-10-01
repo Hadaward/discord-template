@@ -1,5 +1,5 @@
-import { type ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
 import { deployCommands } from "@/common/manager/command";
+import { type ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from "discord.js";
 
 export const builder = new SlashCommandBuilder().
 	setName("redeploy").
@@ -12,9 +12,9 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 
 	try {
 		await deployCommands();
-		await interaction.editReply({ content: "Todos os comandos foram reimplantados com sucesso." });
+		await interaction.editReply({ content: "All commands have been successfully re-deployed." });
 	} catch (error) {
 		console.error("[ERROR] [redeploy.execute] An error occurred while re-deploying commands:\n", error);
-		await interaction.editReply({ content: "Ocorreu um erro ao reimplantar os comandos." });
+		await interaction.editReply({ content: "An error occurred while re-deploying commands." });
 	}
 }
