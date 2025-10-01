@@ -1,6 +1,6 @@
 # Discord.js Bot Template
 
-A basic Discord bot template built with [discord.js](https://discord.js.org/), featuring integration with MySQL and SQLite, environment variable configuration, and interactive commands.
+A basic Discord bot template built with [discord.js](https://discord.js.org/), featuring environment variable configuration, and interactive commands.
 
 ---
 
@@ -8,7 +8,6 @@ A basic Discord bot template built with [discord.js](https://discord.js.org/), f
 
 - [Node.js](https://nodejs.org/) **v20.16.0 or higher**
 - [npm](https://www.npmjs.com/)
-- Configured MySQL server (optional, for persistent data)
 - Discord bot registered with appropriate permissions
 
 ---
@@ -16,8 +15,8 @@ A basic Discord bot template built with [discord.js](https://discord.js.org/), f
 ## 🚀 Installation
 
 ```bash
-git clone https://github.com/your-username/discordjs-bot-template.git
-cd discordjs-bot-template
+git clone https://github.com/Hadaward/discord-template.git
+cd discord-template
 npm install
 ```
 
@@ -53,21 +52,11 @@ DEPLOY_COMMANDS=false
 
 ---
 
-## 🧪 Database
-
-This project supports:
-
-- **MySQL** — For persistent user data.
-- **SQLite** (`bot.db`) — For local data storage.
-
----
-
 ## 📁 Project Structure
 
 ```
 src/
 ├── client/               # Discord integration (bot, commands, buttons)
-├── server/               # Server communication (optional)
 ├── common/               # Database, types, initialization, utilities
 ├── resources/commands/   # Discord commands
 ├── index.ts              # Main entry point
@@ -90,9 +79,3 @@ This command automatically compiles and restarts the bot when `.ts` files are sa
 ## 📄 License
 
 Distributed under the [MIT](LICENSE) license.
-
----
-
-## ✨ Author
-
-Developed by **Your Name**.
